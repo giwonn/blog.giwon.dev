@@ -3,7 +3,8 @@
     "allow": [
       "WebSearch",
       "Bash(npm install:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(npx create-next-app@latest:*)"
     ]
   }
 }
