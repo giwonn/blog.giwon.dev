@@ -30,9 +30,6 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 
-# Copy posts directory for MDX content
-COPY --from=builder /app/posts ./posts
-
 USER nextjs
 
 EXPOSE 3000
