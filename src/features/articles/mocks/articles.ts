@@ -62,15 +62,13 @@ This is the second post with some **MDX** content.
 
 You can even embed React components in MDX!
 
+- 버튼 컴포넌트
 \`\`\`tsx
-export function Button({ children }) {
-  return (
-    <button className="px-4 py-2 bg-blue-500 text-white rounded">
-      {children}
-    </button>
-  );
-}
+<Button variant="primary" onClick={() => console.log('클릭')}>
+  이건 진짜 동작하는 버튼
+</Button>
 \`\`\`
+
 `,
   },
   {

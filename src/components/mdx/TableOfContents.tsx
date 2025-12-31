@@ -47,7 +47,7 @@ export function TableOfContents({ content }: TableOfContentsProps) {
                     }
                 });
             },
-            { rootMargin: "0% 0px -99% 0px" }
+            { rootMargin: "0% 0px -85% 0px" }
         );
 
         headings.forEach(({ id }) => {
@@ -82,30 +82,29 @@ export function TableOfContents({ content }: TableOfContentsProps) {
     if (headings.length === 0) return null;
 
     return (
-        <nav ref={navRef} className="toc-scroll border-l border-gray-200 dark:border-gray-700 pl-4 max-h-[calc(100vh-4rem)] overflow-y-auto">
-            <p className="text-sm font-semibold mb-3 text-gray-500 dark:text-[#c0c0c0]">
+        <nav ref={navRef} className="toc-scroll border-l border-gray-200 dark:border-gray-700 max-h-[calc(100vh-4rem)] overflow-y-auto -ml-px">
+            <p className="text-sm font-semibold mb-3 text-gray-500 dark:text-[#c0c0c0] pl-4">
                 목차
             </p>
-            <ul className="space-y-1 text-sm">
+            <ul className="space-y-2 text-sm">
                 {headings.map(({ id, text, level }) => (
-                    <li
-                        key={id}
-                        style={{ paddingLeft: `${(level - 1) * 12}px` }}
-                    >
+                    <li key={id}>
                         <a
                             href={`#${id}`}
                             data-toc-id={id}
                             onClick={(e) => {
                                 e.preventDefault();
+                                setActiveId(id);
                                 window.history.pushState(null, "", `#${id}`);
                                 document.getElementById(id)?.scrollIntoView({
                                     behavior: "smooth",
                                 });
                             }}
-                            className={`block py-0.5 px-2 -ml-2 mr-2 rounded transition-colors ${
+                            style={{ paddingLeft: `calc(1rem + ${(level - 1) * 12}px)` }}
+                            className={`block py-0.5 pr-2 mr-2 rounded-r border-l-2 transition-colors ${
                                 activeId === id
-                                    ? "text-blue-500 dark:text-[#60a5fa] font-medium bg-blue-50 dark:bg-[rgba(96,165,250,0.2)]"
-                                    : "text-gray-600 dark:text-[#c0c0c0] hover:text-gray-900 hover:bg-gray-100 dark:hover:text-[#bfdbfe] dark:hover:bg-[rgba(255,255,255,0.08)]"
+                                    ? "border-blue-500 dark:border-[#60a5fa] text-blue-500 dark:text-[#60a5fa] font-medium bg-blue-50 dark:bg-[rgba(96,165,250,0.2)]"
+                                    : "border-transparent text-gray-600 dark:text-[#c0c0c0] hover:text-gray-900 hover:bg-gray-100 dark:hover:text-[#bfdbfe] dark:hover:bg-[rgba(255,255,255,0.08)]"
                             }`}
                         >
                             {text}
