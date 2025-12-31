@@ -1,3 +1,5 @@
+name: giwon-blog
+
 services:
   blog:
     build:
