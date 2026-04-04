@@ -2,6 +2,7 @@ import { getArticle } from "@/actions/articles";
 import { MDXContent } from "@/lib/mdx";
 import { TableOfContents } from "@/components/mdx/TableOfContents";
 import { Container } from "@/components/ui/Container";
+import { Utterances } from "@/components/ui/Utterances";
 import { notFound } from "next/navigation";
 
 interface ArticleDetailProps {
@@ -21,6 +22,9 @@ export async function Article({ articleId }: ArticleDetailProps) {
                 <h1 className="mb-4 text-3xl md:text-4xl lg:text-5xl font-bold">{article.title}</h1>
                 <div className="mb-8 text-gray-500">{article.date}</div>
                 <MDXContent source={article.content} />
+                <div className="mt-16">
+                    <Utterances />
+                </div>
             </article>
             <aside className="hidden min-[1380px]:block absolute top-0 bottom-0 left-full min-[1460px]:left-[calc(100%+3rem)] w-64 transition-[left] duration-300 ease-in-out">
                 <div className="sticky top-4">

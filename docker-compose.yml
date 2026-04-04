@@ -13,6 +13,7 @@ services:
       - blog-network
     environment:
       - NODE_ENV=production
+      - API_BASE_URL=http://giwon-blog-api-blog:8080
 
 networks:
   blog-network:

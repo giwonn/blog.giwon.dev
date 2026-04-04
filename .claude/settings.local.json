@@ -4,7 +4,10 @@
       "WebSearch",
       "Bash(npm install:*)",
       "Bash(npm run build:*)",
-      "Bash(npx create-next-app@latest:*)"
+      "Bash(npx create-next-app@latest:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
     ]
   }
 }

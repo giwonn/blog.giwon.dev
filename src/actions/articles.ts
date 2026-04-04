@@ -1,11 +1,8 @@
 "use server";
 
-import {
-  mockArticleSummaries,
-  getMockArticle,
-} from "@/features/articles/mocks/articles";
+import { apiClient } from "@/lib/api";
+import type { Article as ApiArticle, PageResponse } from "@/types";
 
-// Domain Models
 export interface ArticleSummary {
   id: number;
   slug: string;
@@ -18,13 +15,35 @@ export interface Article extends ArticleSummary {
   content: string;
 }
 
-// API Functions
-export async function getArticleSummaries(): Promise<ArticleSummary[]> {
-  // TODO: 백엔드 API 연동 후 mock 제거
-  return mockArticleSummaries.data;
+function toArticleSummary(article: ApiArticle): ArticleSummary {
+  return {
+    id: article.id,
+    slug: String(article.id),
+    title: article.title,
+    date: new Date(article.createdAt).toLocaleDateString("ko-KR"),
+    excerpt: article.content.substring(0, 150).replace(/[#*!\[\]()]/g, "") + "...",
+  };
 }
 
-export async function getArticle(articleId: string): Promise<Article | null> {
-  // TODO: 백엔드 API 연동 후 mock 제거
-  return getMockArticle(parseInt(articleId));
+function toArticle(article: ApiArticle): Article {
+  return {
+    ...toArticleSummary(article),
+    content: article.content,
+  };
+}
+
+export async function getArticleSummaries(): Promise<ArticleSummary[]> {
+  const page = await apiClient<PageResponse<ApiArticle>>("/articles?size=20");
+  return page.content.map(toArticleSummary);
+}
+
+export async function getArticle(
+  articleId: string
+): Promise<Article | null> {
+  try {
+    const article = await apiClient<ApiArticle>(`/articles/${articleId}`);
+    return toArticle(article);
+  } catch {
+    return null;
+  }
 }
