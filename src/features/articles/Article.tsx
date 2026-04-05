@@ -27,7 +27,7 @@ export async function Article({ articleId }: ArticleDetailProps) {
                 </div>
             </article>
             <aside className="hidden min-[1380px]:block absolute top-0 bottom-0 left-full min-[1460px]:left-[calc(100%+3rem)] w-64 transition-[left] duration-300 ease-in-out">
-                <div className="sticky top-4">
+                <div className="sticky top-16">
                     <TableOfContents content={article.content} />
                 </div>
             </aside>

@@ -82,7 +82,7 @@ export function TableOfContents({ content }: TableOfContentsProps) {
     if (headings.length === 0) return null;
 
     return (
-        <nav ref={navRef} className="toc-scroll border-l border-gray-200 dark:border-gray-700 max-h-[calc(100vh-4rem)] overflow-y-auto -ml-px">
+        <nav ref={navRef} className="toc-scroll border-l border-gray-200 dark:border-gray-700 max-h-[calc(100vh-5rem)] overflow-y-auto -ml-px">
             <p className="text-sm font-semibold mb-3 text-gray-500 dark:text-[#c0c0c0] pl-4">
                 목차
             </p>
