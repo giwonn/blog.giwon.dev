@@ -3,6 +3,7 @@ import rehypeHighlight from 'rehype-highlight';
 import rehypeSlug from 'rehype-slug';
 import rehypeKatex from 'rehype-katex';
 import rehypeExternalLinks from 'rehype-external-links';
+import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import { visit } from 'unist-util-visit';
@@ -55,8 +56,10 @@ export async function MDXContent({ source, components = {} }: MDXContentProps) {
             components={{ ...mdxComponents, ...components }}
             options={{
                 mdxOptions: {
+                    format: 'md',
                     remarkPlugins: [remarkGfm, remarkMath],
                     rehypePlugins: [
+                        rehypeRaw,
                         rehypeMermaid,
                         rehypeHighlight,
                         rehypeCodeLanguage,
