@@ -63,25 +63,22 @@ body {
 
 .prose pre {
   padding: 0 !important;
-  background: transparent !important;
-}
-
-.prose pre:has(code:not(.hljs)) {
   background: #282c34 !important;
-  padding: 1rem !important;
   border-radius: 0.5rem;
 }
 
-.prose pre:has(code:not(.hljs)) code {
+.prose pre code {
+  position: relative;
+  display: block;
+  padding-top: 2.5rem !important;
   color: #abb2bf;
 }
 
 .prose pre code.hljs {
-  position: relative;
-  padding-top: 2.5rem !important;
+  color: inherit;
 }
 
-.prose pre code.hljs::before {
+.prose pre code::before {
   content: attr(data-language);
   position: absolute;
   top: 0;
@@ -95,7 +92,7 @@ body {
   text-align: right;
 }
 
-.prose pre code.hljs::after {
+.prose pre code::after {
   content: "";
   position: absolute;
   top: 0.6rem;
