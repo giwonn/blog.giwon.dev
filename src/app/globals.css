@@ -66,6 +66,16 @@ body {
   background: transparent !important;
 }
 
+.prose pre:has(code:not(.hljs)) {
+  background: #282c34 !important;
+  padding: 1rem !important;
+  border-radius: 0.5rem;
+}
+
+.prose pre:has(code:not(.hljs)) code {
+  color: #abb2bf;
+}
+
 .prose pre code.hljs {
   position: relative;
   padding-top: 2.5rem !important;
