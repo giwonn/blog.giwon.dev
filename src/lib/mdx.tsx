@@ -9,6 +9,7 @@ import remarkMath from 'remark-math';
 import { visit } from 'unist-util-visit';
 import type { Root, Element } from 'hast';
 import { CodeBlock } from '@/components/mdx/CodeBlock';
+import { CustomContainer } from '@/components/mdx/CustomContainer';
 
 function rehypeMermaid() {
     return (tree: Root) => {
@@ -40,8 +41,29 @@ function rehypeCodeLanguage() {
     };
 }
 
+// :::tip, :::warning, :::danger, :::info 컨테이너를 HTML로 변환
+function transformContainers(source: string): string {
+    return source.replace(
+        /^:::(tip|warning|danger|info)(?:\s+(.*))?\n([\s\S]*?)^:::\s*$/gm,
+        (_match, type, title, content) => {
+            const escapedTitle = title ? ` title="${title.trim()}"` : '';
+            return `<div data-container="${type}"${escapedTitle}>\n\n${content.trim()}\n\n</div>`;
+        }
+    );
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function ContainerDiv(props: any) {
+    const type = props['data-container'];
+    if (type) {
+        return <CustomContainer type={type} title={props.title}>{props.children}</CustomContainer>;
+    }
+    return <div {...props} />;
+}
+
 const mdxComponents = {
     pre: CodeBlock,
+    div: ContainerDiv,
 };
 
 interface MDXContentProps {
@@ -52,7 +74,7 @@ interface MDXContentProps {
 export async function MDXContent({ source, components = {} }: MDXContentProps) {
     return (
         <MDXRemote
-            source={source}
+            source={transformContainers(source)}
             components={{ ...mdxComponents, ...components }}
             options={{
                 mdxOptions: {
