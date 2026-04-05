@@ -4,7 +4,7 @@ import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 export function Header() {
     return (
-        <header className="border-b py-4">
+        <header className="sticky top-0 z-40 bg-white dark:bg-[#303030] border-b py-4">
             <Container className="flex items-center justify-between">
                 <Link href="/" className="text-xl font-bold">
                     Giwon's Blog
