@@ -1,5 +1,6 @@
 "use server";
 
+import { headers } from "next/headers";
 import { apiClient } from "@/lib/api";
 import type { Article as ApiArticle, PageResponse } from "@/types";
 
@@ -41,7 +42,18 @@ export async function getArticle(
   articleId: string
 ): Promise<Article | null> {
   try {
-    const article = await apiClient<ApiArticle>(`/articles/${articleId}`);
+    const headersList = await headers();
+    const forwardHeaders: Record<string, string> = {};
+
+    const xff = headersList.get("x-forwarded-for");
+    if (xff) forwardHeaders["X-Forwarded-For"] = xff;
+
+    const referer = headersList.get("referer");
+    if (referer) forwardHeaders["Referer"] = referer;
+
+    const article = await apiClient<ApiArticle>(`/articles/${articleId}`, {
+      headers: forwardHeaders,
+    });
     return toArticle(article);
   } catch {
     return null;
