@@ -10,7 +10,6 @@ export async function POST(request: NextRequest) {
 
   const ipAddress =
     request.headers.get("x-forwarded-for")?.split(",")[0].trim() ||
-    request.ip ||
     "unknown";
   const userAgent = request.headers.get("user-agent");
 
