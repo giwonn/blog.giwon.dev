@@ -6,6 +6,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollToTop } from "@/components/ui/ScrollToTop";
 import { Sidebar } from "@/components/sidebar/Sidebar";
+import { PageTracker } from "@/components/analytics/PageTracker";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 
 const geistSans = Geist({
@@ -45,6 +46,7 @@ export default function RootLayout({
             <Sidebar />
           </Suspense>
           <ScrollToTop />
+          <PageTracker />
         </ThemeProvider>
       </body>
     </html>
