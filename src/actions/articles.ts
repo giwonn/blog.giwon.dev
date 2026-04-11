@@ -1,7 +1,7 @@
 "use server";
 
 import { apiClient } from "@/lib/api";
-import type { Article as ApiArticle, PageResponse } from "@/types";
+import type { Article as ApiArticle, PageResponse, ArticleNeighbors } from "@/types";
 
 export interface ArticleSummary {
   id: number;
@@ -9,6 +9,8 @@ export interface ArticleSummary {
   title: string;
   date: string;
   excerpt: string;
+  seriesId: number | null;
+  bookId: number | null;
 }
 
 export interface Article extends ArticleSummary {
@@ -18,10 +20,14 @@ export interface Article extends ArticleSummary {
 function toArticleSummary(article: ApiArticle): ArticleSummary {
   return {
     id: article.id,
-    slug: String(article.id),
+    slug: article.slug,
     title: article.title,
-    date: new Date(article.createdAt).toLocaleDateString("ko-KR"),
+    date: article.publishedAt
+      ? new Date(article.publishedAt).toLocaleDateString("ko-KR")
+      : new Date(article.createdAt).toLocaleDateString("ko-KR"),
     excerpt: article.content.substring(0, 150).replace(/[#*!\[\]()]/g, "") + "...",
+    seriesId: article.seriesId,
+    bookId: article.bookId,
   };
 }
 
@@ -32,18 +38,28 @@ function toArticle(article: ApiArticle): Article {
   };
 }
 
-export async function getArticleSummaries(): Promise<ArticleSummary[]> {
-  const page = await apiClient<PageResponse<ApiArticle>>("/articles?size=20");
+export async function getArticleSummaries(filter: string = "all"): Promise<ArticleSummary[]> {
+  const page = await apiClient<PageResponse<ApiArticle>>(`/articles?filter=${filter}&size=20`);
   return page.content.map(toArticleSummary);
 }
 
-export async function getArticle(
-  articleId: string
-): Promise<Article | null> {
+export async function getArticle(slug: string): Promise<Article | null> {
   try {
-    const article = await apiClient<ApiArticle>(`/articles/${articleId}`);
+    const article = await apiClient<ApiArticle>(`/articles/${slug}`);
     return toArticle(article);
   } catch {
     return null;
   }
+}
+
+export async function getArticleNeighbors(
+  slug: string,
+  seriesSlug?: string,
+  bookSlug?: string
+): Promise<ArticleNeighbors> {
+  const params = new URLSearchParams();
+  if (seriesSlug) params.set("series", seriesSlug);
+  if (bookSlug) params.set("book", bookSlug);
+  const query = params.toString();
+  return apiClient<ArticleNeighbors>(`/articles/${slug}/neighbors${query ? `?${query}` : ""}`);
 }

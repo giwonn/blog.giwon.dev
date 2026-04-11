@@ -11,12 +11,10 @@ export function Header() {
                 </Link>
                 <div className="flex items-center gap-4">
                     <nav className="flex gap-4">
-                        <Link href="/articles" className="hover:underline">
-                            Articles
-                        </Link>
-                        <Link href="/about" className="hover:underline">
-                            About
-                        </Link>
+                        <Link href="/articles" className="hover:underline">글</Link>
+                        <Link href="/series" className="hover:underline">시리즈</Link>
+                        <Link href="/books" className="hover:underline">독후감</Link>
+                        <Link href="/about" className="hover:underline">소개</Link>
                     </nav>
                     <ThemeToggle />
                 </div>
