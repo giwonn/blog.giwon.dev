@@ -3,6 +3,12 @@
 import { apiClient } from "@/lib/api";
 import type { Article as ApiArticle, PageResponse, ArticleNeighbors } from "@/types";
 
+const IMAGE_PUBLIC_URL = process.env.IMAGE_PUBLIC_URL || 'http://localhost:8080/images';
+
+function proxyImageUrls(content: string): string {
+  return content.replaceAll(`${IMAGE_PUBLIC_URL}/`, '/api/images/');
+}
+
 export interface ArticleSummary {
   id: number;
   slug: string;
@@ -34,7 +40,7 @@ function toArticleSummary(article: ApiArticle): ArticleSummary {
 function toArticle(article: ApiArticle): Article {
   return {
     ...toArticleSummary(article),
-    content: article.content,
+    content: proxyImageUrls(article.content),
   };
 }
 
